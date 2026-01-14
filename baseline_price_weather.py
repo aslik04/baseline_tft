@@ -46,7 +46,31 @@ ENV_SKIP_BASELINE_FIT = os.environ.get("SKIP_BASELINE_FIT", "0") == "1"
 ENV_BASELINE_MAX_EPOCHS = int(os.environ.get("BASELINE_MAX_EPOCHS", str(ENV_MAX_EPOCHS)))
 
 TASK_ID = os.environ.get("SLURM_ARRAY_TASK_ID", "local")
-EXPERIMENT = os.environ.get("EXP_NAME", "price_only")
+EXPERIMENT = os.environ.get("EXP_NAME", "price_weather")
+
+# ------------------------------------------------------------------
+# Run configuration (matching LSTM pattern)
+# ------------------------------------------------------------------
+EXPERIMENT_NAME = "Price+Weather"
+MODEL_TAG = "tft"
+RUN_TS = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
+
+TOP_K = 10
+SAVED_RESULTS_DIR = "saved_results"
+
+# run output dir: saved_results/<timestamp>_<experimentname>_tft/
+RUN_NAME = f"{RUN_TS}_{EXPERIMENT_NAME.replace(' ', '')}_{MODEL_TAG}"
+RUN_DIR = os.path.join(SAVED_RESULTS_DIR, RUN_NAME)
+TOPMODELS_DIR = os.path.join(RUN_DIR, "top_models")
+TRIAL_SUMMARY_CSV = os.path.join(RUN_DIR, "trial_summary.csv")
+
+# DB inside the run folder (so each run is self-contained)
+DB_PATH = os.path.join(RUN_DIR, f"optuna_{EXPERIMENT_NAME.replace(' ', '')}_{MODEL_TAG}.db")
+
+# study name includes timestamp + experiment + model
+STUDY_NAME = RUN_NAME
+
+os.makedirs(TOPMODELS_DIR, exist_ok=True)
 
 # %%
 # ─────────────────────────────────────────────────────────────
@@ -620,6 +644,7 @@ def build_tft_model_from_trial(trial: optuna.Trial, train_ds, lookback: int):
 
 
 def objective(trial: optuna.Trial):
+    start_time = time.time()
     pl.seed_everything(SEED, workers=True)
 
     # sample lookback ONCE here
@@ -630,7 +655,7 @@ def objective(trial: optuna.Trial):
     model, hparams = build_tft_model_from_trial(trial, train_ds=train_ds, lookback=lookback)
 
     batch_size = hparams["batch_size"]
-    train_loader, val_loader, _ = _make_loaders(train_ds, val_ds, test_ds, batch_size=batch_size, num_workers=NUM_WORKERS)
+    train_loader, val_loader, test_loader = _make_loaders(train_ds, val_ds, test_ds, batch_size=batch_size, num_workers=NUM_WORKERS)
 
     # callbacks: early stopping + pruning (track best val_loss)
     prune_cb = OptunaPruningCallback(trial, monitor="val_loss")
@@ -659,6 +684,47 @@ def objective(trial: optuna.Trial):
     trainer.fit(model, train_loader, val_loader)
 
     best_val = prune_cb.best
+    epochs_ran = trainer.current_epoch + 1
+    duration_sec = float(time.time() - start_time)
+
+    # ---- Store training metrics in Optuna DB (user_attrs) ----
+    trial.set_user_attr("duration_sec", duration_sec)
+    trial.set_user_attr("epochs_ran", epochs_ran)
+    trial.set_user_attr("val_loss_best", float(best_val))
+
+    # ---- Evaluate on test set (like LSTM) ----
+    try:
+        test_metrics = evaluate_tft_baseline(
+            model=model,
+            test_loader=test_loader,
+            quantiles=QUANTILES,
+            plot=False,
+        )
+        # Store test metrics in Optuna DB (matching LSTM column names)
+        trial.set_user_attr("test_mae", float(test_metrics["MAE"]))
+        trial.set_user_attr("test_rmse", float(test_metrics["RMSE"]))
+        trial.set_user_attr("test_mape", float(test_metrics["MAPE"]))
+        trial.set_user_attr("test_directional_accuracy", float(test_metrics["Directional_Accuracy"]))
+    except Exception as e:
+        print(f"[trial {trial.number}] Test eval failed: {e}")
+        trial.set_user_attr("test_mae", None)
+        trial.set_user_attr("test_rmse", None)
+        trial.set_user_attr("test_mape", None)
+        trial.set_user_attr("test_directional_accuracy", None)
+
+    # Store hyperparameters as user attrs for easy CSV export
+    trial.set_user_attr("lookback", int(lookback))
+    trial.set_user_attr("batch_size", int(batch_size))
+    trial.set_user_attr("hidden_size", int(hparams["hidden_size"]))
+    trial.set_user_attr("attention_head_size", int(hparams["attention_head_size"]))
+    trial.set_user_attr("hidden_continuous_size", int(hparams["hidden_continuous_size"]))
+    trial.set_user_attr("dropout", float(hparams["dropout"]))
+    trial.set_user_attr("lstm_layers", int(hparams["lstm_layers"]))
+    trial.set_user_attr("learning_rate", float(hparams["learning_rate"]))
+    trial.set_user_attr("gradient_clip_val", float(hparams["gradient_clip_val"]))
+    trial.set_user_attr("weight_decay", float(hparams["weight_decay"]))
+
+    print(f"[trial {trial.number:03d}] ✅ COMPLETED in {duration_sec:.1f}s | best val_loss={best_val:.4f}")
 
     # cleanup
     del trainer, model
@@ -672,8 +738,9 @@ def objective(trial: optuna.Trial):
 
 
 # ---- Study runner with SQLite storage for resumable runs ----
-STORAGE_URL = f"sqlite:///optuna_{EXPERIMENT}_{TASK_ID}.db"
-STUDY_NAME  = f"henryhub_tft_{EXPERIMENT}_v1"
+# Use the RUN_DIR for self-contained experiment  
+STORAGE_URL = f"sqlite:///{DB_PATH}"
+# STUDY_NAME already defined above with timestamp for unique identification
 
 study = optuna.create_study(
     study_name=STUDY_NAME,
@@ -694,7 +761,7 @@ print("Best value (val_loss):", study.best_value)
 print("Best params:", study.best_params)
 
 # %% [markdown]
-# ### Step 8 - Save Optuna Search Results (Timestamped Run Folder)
+# ### Step 8 - Export Trial Summary CSV (Matching LSTM Format)
 # 
 # Creates a unique output directory for this run using the current UTC timestamp, e.g. saved_tft_models/20260111-154233_price_only_tft/, so results don’t overwrite previous runs.
 # Exports the full Optuna trial log to optuna_trials.csv (trial id, state, objective value, sampled hyperparameters).
@@ -704,17 +771,55 @@ print("Best params:", study.best_params)
 # - optuna_param_importances.png + optuna_param_importances.json (hyperparameter importance), or an error file if importances can’t be computed.
 
 # %%
-def _utc_run_dir(base_dir="saved_tft_models", run_name="price_weather_tft"):
-    ts = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
-    out_dir = os.path.join(base_dir, f"{ts}_{run_name}".replace(" ", "_"))
-    os.makedirs(out_dir, exist_ok=True)
-    return out_dir
+def export_trial_summary(study: optuna.Study, out_csv: str):
+    """
+    Export a flat CSV with key metrics as columns (RMSE/MAE/MAPE/DA etc),
+    plus params/user_attrs blobs for debugging. Matches LSTM format.
+    """
+    wanted = [
+        # runtime / training
+        "duration_sec", "epochs_ran",
+        "val_loss_best",
+        # test metrics (real units)
+        "test_mae", "test_rmse", "test_mape", "test_directional_accuracy",
+        # TFT-specific hyperparameters
+        "lookback", "batch_size", "hidden_size", "attention_head_size",
+        "hidden_continuous_size", "dropout", "lstm_layers", "learning_rate",
+        "gradient_clip_val", "weight_decay",
+        # prune diagnostics (if available)
+        "pruned_epoch", "last_val_loss",
+        # optional export info (if you set it later)
+        "exported_rank", "export_dir",
+    ]
+
+    rows = []
+    for t in study.trials:
+        ua = t.user_attrs or {}
+
+        row = {
+            "trial_number": t.number,
+            "state": t.state.name,
+            "value": t.value,
+            "datetime_start": str(t.datetime_start) if t.datetime_start else None,
+            "datetime_complete": str(t.datetime_complete) if t.datetime_complete else None,
+            "params": json.dumps(t.params, default=str),
+        }
+
+        # Flatten selected user attrs into dedicated columns
+        for k in wanted:
+            row[k] = ua.get(k, None)
+
+        # Keep the full blob too
+        row["user_attrs"] = json.dumps(ua, default=str)
+
+        rows.append(row)
+
+    pd.DataFrame(rows).to_csv(out_csv, index=False)
+    print(f"Wrote trial summary: {out_csv}")
+
 
 def save_optuna_study_artifacts(study: optuna.Study, out_dir: str):
-    """Save trials table + best params + basic Optuna plots (PNG)."""
-    # trials dataframe
-    df = study.trials_dataframe(attrs=("number", "state", "value", "params", "user_attrs"))
-    df.to_csv(os.path.join(out_dir, "optuna_trials.csv"), index=False)
+    """Save best params + basic Optuna plots (PNG)."""
 
     # best params
     with open(os.path.join(out_dir, "best_params.json"), "w") as f:
@@ -738,8 +843,11 @@ def save_optuna_study_artifacts(study: optuna.Study, out_dir: str):
         with open(os.path.join(out_dir, "optuna_param_importances_error.txt"), "w") as f:
             f.write(str(e))
 
-out_dir = _utc_run_dir()
-save_optuna_study_artifacts(study, out_dir)
+# Export trial summary CSV (like LSTM)
+export_trial_summary(study, TRIAL_SUMMARY_CSV)
+
+# Save Optuna artifacts to RUN_DIR
+save_optuna_study_artifacts(study, RUN_DIR)
 
 # %% [markdown]
 # ### Step 9 - Save Best TFT Run Artifacts (Checkpoint + Metrics + Plots)
