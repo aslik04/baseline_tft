@@ -1,0 +1,642 @@
+==============================================
+Job Array Task: 0
+Experiment:     price_storage
+Running:        baseline_price_storage_tft.py
+Host:           gecko-01
+Started at:     Wed 14 Jan 18:17:37 GMT 2026
+==============================================
+============================================================
+CUDA available: True
+GPU: NVIDIA A10
+SLURM_CPUS = 8
+NUM_WORKERS = 4, PIN_MEMORY = True
+ENV_MAX_EPOCHS=60, ENV_PATIENCE=8, ENV_N_TRIALS=300
+ENV_BATCH_SIZE=64, ENV_SKIP_BASELINE_FIT=True
+============================================================
+
+--- nvidia-smi ---
+Wed Jan 14 18:17:43 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.119.02             Driver Version: 580.119.02     CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A10                     On  |   00000000:25:00.0 Off |                    0 |
+|  0%   25C    P8             13W /  150W |       3MiB /  23028MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+train 2953: 2010-01-04 → 2021-04-28 | val 521: 2021-04-29 → 2023-04-27 | test 612: 2023-04-28 → 2025-09-01
+Cutoffs (time_idx): train_cutoff=2952, val_cutoff=3473
+Samples | train: 2893 | val: 521 | test: 612
+MAE              : 0.1799
+RMSE             : 0.6065
+MAPE             : 5.82%
+Directional Acc. : 44.68%
+[trial 000] ✅ COMPLETED in 110.2s | best val_loss=0.2709
+MAE              : 0.1919
+RMSE             : 0.6675
+MAPE             : 6.16%
+Directional Acc. : 46.64%
+[trial 001] ✅ COMPLETED in 93.7s | best val_loss=0.3769
+MAE              : 0.2017
+RMSE             : 0.6402
+MAPE             : 7.01%
+Directional Acc. : 44.03%
+[trial 002] ✅ COMPLETED in 107.7s | best val_loss=0.4688
+MAE              : 0.2097
+RMSE             : 0.6318
+MAPE             : 7.10%
+Directional Acc. : 45.01%
+[trial 003] ✅ COMPLETED in 65.9s | best val_loss=0.4151
+MAE              : 0.1895
+RMSE             : 0.6587
+MAPE             : 6.13%
+Directional Acc. : 43.37%
+[trial 004] ✅ COMPLETED in 164.2s | best val_loss=0.3668
+MAE              : 0.1755
+RMSE             : 0.6196
+MAPE             : 5.40%
+Directional Acc. : 43.21%
+[trial 006] ✅ COMPLETED in 138.7s | best val_loss=0.3108
+MAE              : 0.1779
+RMSE             : 0.6216
+MAPE             : 5.46%
+Directional Acc. : 44.68%
+[trial 011] ✅ COMPLETED in 158.3s | best val_loss=0.3362
+MAE              : 0.1878
+RMSE             : 0.6550
+MAPE             : 6.07%
+Directional Acc. : 44.84%
+[trial 013] ✅ COMPLETED in 120.6s | best val_loss=0.3490
+MAE              : 0.1869
+RMSE             : 0.6191
+MAPE             : 6.11%
+Directional Acc. : 45.34%
+[trial 015] ✅ COMPLETED in 97.1s | best val_loss=0.3223
+MAE              : 0.1798
+RMSE             : 0.6122
+MAPE             : 5.67%
+Directional Acc. : 45.34%
+[trial 019] ✅ COMPLETED in 144.3s | best val_loss=0.3377
+MAE              : 0.1942
+RMSE             : 0.6283
+MAPE             : 6.41%
+Directional Acc. : 43.70%
+[trial 020] ✅ COMPLETED in 99.4s | best val_loss=0.3575
+MAE              : 0.1941
+RMSE             : 0.6049
+MAPE             : 6.67%
+Directional Acc. : 45.99%
+[trial 021] ✅ COMPLETED in 109.1s | best val_loss=0.2962
+MAE              : 0.1851
+RMSE             : 0.6323
+MAPE             : 6.06%
+Directional Acc. : 45.17%
+[trial 022] ✅ COMPLETED in 90.3s | best val_loss=0.3176
+MAE              : 0.2041
+RMSE             : 0.6625
+MAPE             : 7.04%
+Directional Acc. : 44.68%
+[trial 023] ✅ COMPLETED in 85.3s | best val_loss=0.3410
+MAE              : 0.1897
+RMSE             : 0.6005
+MAPE             : 6.37%
+Directional Acc. : 45.99%
+[trial 024] ✅ COMPLETED in 138.4s | best val_loss=0.3118
+MAE              : 0.1829
+RMSE             : 0.6267
+MAPE             : 5.79%
+Directional Acc. : 45.01%
+[trial 025] ✅ COMPLETED in 126.1s | best val_loss=0.3041
+MAE              : 0.1796
+RMSE             : 0.6294
+MAPE             : 5.68%
+Directional Acc. : 44.35%
+[trial 026] ✅ COMPLETED in 103.2s | best val_loss=0.3275
+MAE              : 0.2069
+RMSE             : 0.6367
+MAPE             : 7.07%
+Directional Acc. : 44.52%
+[trial 027] ✅ COMPLETED in 110.7s | best val_loss=0.2816
+MAE              : 0.2049
+RMSE             : 0.6306
+MAPE             : 7.02%
+Directional Acc. : 44.52%
+[trial 028] ✅ COMPLETED in 111.2s | best val_loss=0.2633
+MAE              : 0.1961
+RMSE             : 0.6538
+MAPE             : 6.46%
+Directional Acc. : 46.15%
+[trial 031] ✅ COMPLETED in 87.6s | best val_loss=0.3206
+MAE              : 0.2041
+RMSE             : 0.6615
+MAPE             : 6.85%
+Directional Acc. : 43.54%
+[trial 032] ✅ COMPLETED in 110.5s | best val_loss=0.2554
+MAE              : 0.1939
+RMSE             : 0.6594
+MAPE             : 6.48%
+Directional Acc. : 43.86%
+[trial 034] ✅ COMPLETED in 112.0s | best val_loss=0.2926
+MAE              : 0.1886
+RMSE             : 0.6412
+MAPE             : 6.07%
+Directional Acc. : 44.35%
+[trial 041] ✅ COMPLETED in 97.3s | best val_loss=0.3254
+MAE              : 0.1895
+RMSE             : 0.6493
+MAPE             : 6.19%
+Directional Acc. : 45.01%
+[trial 042] ✅ COMPLETED in 109.4s | best val_loss=0.3042
+MAE              : 0.1982
+RMSE             : 0.6230
+MAPE             : 6.79%
+Directional Acc. : 45.66%
+[trial 043] ✅ COMPLETED in 115.7s | best val_loss=0.2772
+MAE              : 0.2230
+RMSE             : 0.6314
+MAPE             : 8.00%
+Directional Acc. : 44.03%
+[trial 046] ✅ COMPLETED in 110.7s | best val_loss=0.2460
+MAE              : 0.2106
+RMSE             : 0.6483
+MAPE             : 6.93%
+Directional Acc. : 47.14%
+[trial 047] ✅ COMPLETED in 132.2s | best val_loss=0.3179
+MAE              : 0.1821
+RMSE             : 0.6246
+MAPE             : 5.76%
+Directional Acc. : 44.84%
+[trial 052] ✅ COMPLETED in 75.6s | best val_loss=0.3110
+MAE              : 0.1798
+RMSE             : 0.6256
+MAPE             : 5.83%
+Directional Acc. : 45.17%
+[trial 053] ✅ COMPLETED in 122.2s | best val_loss=0.2879
+MAE              : 0.1879
+RMSE             : 0.6601
+MAPE             : 6.15%
+Directional Acc. : 45.34%
+[trial 054] ✅ COMPLETED in 116.5s | best val_loss=0.2987
+MAE              : 0.1884
+RMSE             : 0.5722
+MAPE             : 6.51%
+Directional Acc. : 43.70%
+[trial 057] ✅ COMPLETED in 138.1s | best val_loss=0.2479
+MAE              : 0.1956
+RMSE             : 0.6060
+MAPE             : 6.52%
+Directional Acc. : 44.52%
+[trial 058] ✅ COMPLETED in 137.4s | best val_loss=0.2360
+MAE              : 0.1956
+RMSE             : 0.6119
+MAPE             : 6.85%
+Directional Acc. : 45.83%
+[trial 060] ✅ COMPLETED in 80.8s | best val_loss=0.2932
+MAE              : 0.2046
+RMSE             : 0.5883
+MAPE             : 6.97%
+Directional Acc. : 45.34%
+[trial 061] ✅ COMPLETED in 162.2s | best val_loss=0.2386
+MAE              : 0.1941
+RMSE             : 0.6187
+MAPE             : 6.57%
+Directional Acc. : 46.32%
+[trial 062] ✅ COMPLETED in 79.3s | best val_loss=0.3173
+MAE              : 0.2028
+RMSE             : 0.6185
+MAPE             : 7.23%
+Directional Acc. : 45.83%
+[trial 063] ✅ COMPLETED in 67.1s | best val_loss=0.2954
+MAE              : 0.1826
+RMSE             : 0.6062
+MAPE             : 5.91%
+Directional Acc. : 43.86%
+[trial 071] ✅ COMPLETED in 111.2s | best val_loss=0.2947
+MAE              : 0.1840
+RMSE             : 0.6026
+MAPE             : 6.06%
+Directional Acc. : 44.03%
+[trial 072] ✅ COMPLETED in 113.4s | best val_loss=0.2665
+MAE              : 0.2070
+RMSE             : 0.6137
+MAPE             : 6.65%
+Directional Acc. : 45.01%
+[trial 073] ✅ COMPLETED in 171.3s | best val_loss=0.2749
+MAE              : 0.1793
+RMSE             : 0.5918
+MAPE             : 5.84%
+Directional Acc. : 45.99%
+[trial 074] ✅ COMPLETED in 173.5s | best val_loss=0.2536
+MAE              : 0.1783
+RMSE             : 0.5994
+MAPE             : 5.83%
+Directional Acc. : 45.83%
+[trial 075] ✅ COMPLETED in 111.0s | best val_loss=0.2781
+MAE              : 0.1873
+RMSE             : 0.6067
+MAPE             : 6.20%
+Directional Acc. : 44.68%
+[trial 079] ✅ COMPLETED in 103.5s | best val_loss=0.3049
+MAE              : 0.2178
+RMSE             : 0.6042
+MAPE             : 7.20%
+Directional Acc. : 45.01%
+[trial 081] ✅ COMPLETED in 116.2s | best val_loss=0.2589
+MAE              : 0.1782
+RMSE             : 0.5901
+MAPE             : 5.76%
+Directional Acc. : 44.52%
+[trial 082] ✅ COMPLETED in 112.0s | best val_loss=0.2897
+MAE              : 0.1964
+RMSE             : 0.6192
+MAPE             : 6.63%
+Directional Acc. : 44.19%
+[trial 085] ✅ COMPLETED in 114.1s | best val_loss=0.2818
+MAE              : 0.1987
+RMSE             : 0.5887
+MAPE             : 6.57%
+Directional Acc. : 45.83%
+[trial 088] ✅ COMPLETED in 168.1s | best val_loss=0.2658
+MAE              : 0.1987
+RMSE             : 0.6053
+MAPE             : 6.43%
+Directional Acc. : 45.17%
+[trial 093] ✅ COMPLETED in 186.8s | best val_loss=0.2474
+MAE              : 0.1941
+RMSE             : 0.6287
+MAPE             : 6.37%
+Directional Acc. : 45.17%
+[trial 094] ✅ COMPLETED in 84.1s | best val_loss=0.3093
+MAE              : 0.1824
+RMSE             : 0.6112
+MAPE             : 5.89%
+Directional Acc. : 45.50%
+[trial 095] ✅ COMPLETED in 70.3s | best val_loss=0.3323
+MAE              : 0.1928
+RMSE             : 0.6042
+MAPE             : 6.47%
+Directional Acc. : 44.84%
+[trial 101] ✅ COMPLETED in 112.4s | best val_loss=0.2537
+MAE              : 0.1911
+RMSE             : 0.6014
+MAPE             : 6.41%
+Directional Acc. : 44.35%
+[trial 102] ✅ COMPLETED in 118.2s | best val_loss=0.2746
+MAE              : 0.1880
+RMSE             : 0.6037
+MAPE             : 6.28%
+Directional Acc. : 45.17%
+[trial 103] ✅ COMPLETED in 90.9s | best val_loss=0.3123
+MAE              : 0.1876
+RMSE             : 0.6104
+MAPE             : 6.06%
+Directional Acc. : 45.34%
+[trial 104] ✅ COMPLETED in 122.9s | best val_loss=0.2698
+MAE              : 0.2168
+RMSE             : 0.6661
+MAPE             : 7.25%
+Directional Acc. : 45.17%
+[trial 109] ✅ COMPLETED in 166.9s | best val_loss=0.2601
+MAE              : 0.1992
+RMSE             : 0.6136
+MAPE             : 6.61%
+Directional Acc. : 45.50%
+[trial 111] ✅ COMPLETED in 109.4s | best val_loss=0.2656
+MAE              : 0.2003
+RMSE             : 0.6181
+MAPE             : 6.63%
+Directional Acc. : 45.34%
+[trial 113] ✅ COMPLETED in 112.3s | best val_loss=0.2675
+MAE              : 0.1913
+RMSE             : 0.6342
+MAPE             : 6.23%
+Directional Acc. : 44.35%
+[trial 116] ✅ COMPLETED in 120.7s | best val_loss=0.2759
+MAE              : 0.1940
+RMSE             : 0.6149
+MAPE             : 6.27%
+Directional Acc. : 45.99%
+[trial 121] ✅ COMPLETED in 63.8s | best val_loss=0.3355
+MAE              : 0.1822
+RMSE             : 0.5846
+MAPE             : 6.09%
+Directional Acc. : 45.99%
+[trial 122] ✅ COMPLETED in 140.5s | best val_loss=0.2528
+MAE              : 0.1806
+RMSE             : 0.6113
+MAPE             : 5.80%
+Directional Acc. : 46.64%
+[trial 123] ✅ COMPLETED in 75.7s | best val_loss=0.3006
+MAE              : 0.1857
+RMSE             : 0.5913
+MAPE             : 6.04%
+Directional Acc. : 44.84%
+[trial 124] ✅ COMPLETED in 108.0s | best val_loss=0.2585
+MAE              : 0.1830
+RMSE             : 0.5857
+MAPE             : 6.08%
+Directional Acc. : 45.99%
+[trial 130] ✅ COMPLETED in 155.7s | best val_loss=0.2689
+MAE              : 0.2003
+RMSE             : 0.6165
+MAPE             : 6.95%
+Directional Acc. : 45.17%
+[trial 132] ✅ COMPLETED in 71.4s | best val_loss=0.3178
+MAE              : 0.2084
+RMSE             : 0.6358
+MAPE             : 7.04%
+Directional Acc. : 44.35%
+[trial 133] ✅ COMPLETED in 152.0s | best val_loss=0.2558
+MAE              : 0.2056
+RMSE             : 0.6146
+MAPE             : 6.65%
+Directional Acc. : 46.48%
+[trial 135] ✅ COMPLETED in 147.3s | best val_loss=0.2570
+MAE              : 0.2002
+RMSE             : 0.6091
+MAPE             : 6.81%
+Directional Acc. : 45.50%
+[trial 138] ✅ COMPLETED in 125.0s | best val_loss=0.2763
+MAE              : 0.1866
+RMSE             : 0.5868
+MAPE             : 6.26%
+Directional Acc. : 45.34%
+[trial 141] ✅ COMPLETED in 153.0s | best val_loss=0.2346
+MAE              : 0.1873
+RMSE             : 0.6052
+MAPE             : 6.04%
+Directional Acc. : 45.50%
+[trial 143] ✅ COMPLETED in 130.5s | best val_loss=0.2442
+MAE              : 0.1920
+RMSE             : 0.6199
+MAPE             : 6.37%
+Directional Acc. : 44.68%
+[trial 144] ✅ COMPLETED in 69.0s | best val_loss=0.3317
+MAE              : 0.1871
+RMSE             : 0.5783
+MAPE             : 6.09%
+Directional Acc. : 44.68%
+[trial 146] ✅ COMPLETED in 179.8s | best val_loss=0.2373
+MAE              : 0.2031
+RMSE             : 0.6197
+MAPE             : 6.66%
+Directional Acc. : 45.34%
+[trial 149] ✅ COMPLETED in 109.0s | best val_loss=0.2887
+MAE              : 0.1844
+RMSE             : 0.5867
+MAPE             : 6.18%
+Directional Acc. : 44.19%
+[trial 151] ✅ COMPLETED in 114.8s | best val_loss=0.2503
+MAE              : 0.1819
+RMSE             : 0.6073
+MAPE             : 5.97%
+Directional Acc. : 44.52%
+[trial 152] ✅ COMPLETED in 181.2s | best val_loss=0.2560
+MAE              : 0.1822
+RMSE             : 0.6039
+MAPE             : 5.95%
+Directional Acc. : 44.52%
+[trial 153] ✅ COMPLETED in 125.6s | best val_loss=0.2652
+MAE              : 0.2111
+RMSE             : 0.6087
+MAPE             : 6.83%
+Directional Acc. : 44.68%
+[trial 154] ✅ COMPLETED in 107.2s | best val_loss=0.2878
+MAE              : 0.2078
+RMSE             : 0.6328
+MAPE             : 6.48%
+Directional Acc. : 45.17%
+[trial 155] ✅ COMPLETED in 89.8s | best val_loss=0.3145
+MAE              : 0.1881
+RMSE             : 0.6148
+MAPE             : 5.95%
+Directional Acc. : 46.15%
+[trial 158] ✅ COMPLETED in 192.4s | best val_loss=0.2589
+MAE              : 0.1896
+RMSE             : 0.6079
+MAPE             : 6.27%
+Directional Acc. : 45.17%
+[trial 161] ✅ COMPLETED in 113.7s | best val_loss=0.2689
+MAE              : 0.1904
+RMSE             : 0.6037
+MAPE             : 6.37%
+Directional Acc. : 45.01%
+[trial 162] ✅ COMPLETED in 112.8s | best val_loss=0.2596
+MAE              : 0.1809
+RMSE             : 0.6143
+MAPE             : 5.89%
+Directional Acc. : 45.99%
+[trial 163] ✅ COMPLETED in 83.2s | best val_loss=0.3136
+MAE              : 0.1992
+RMSE             : 0.6038
+MAPE             : 6.80%
+Directional Acc. : 44.35%
+[trial 164] ✅ COMPLETED in 133.5s | best val_loss=0.2857
+MAE              : 0.1906
+RMSE             : 0.6035
+MAPE             : 6.08%
+Directional Acc. : 45.50%
+[trial 165] ✅ COMPLETED in 171.8s | best val_loss=0.2478
+MAE              : 0.1910
+RMSE             : 0.6011
+MAPE             : 6.31%
+Directional Acc. : 44.52%
+[trial 167] ✅ COMPLETED in 111.6s | best val_loss=0.2725
+MAE              : 0.2042
+RMSE             : 0.6094
+MAPE             : 6.66%
+Directional Acc. : 46.32%
+[trial 171] ✅ COMPLETED in 116.7s | best val_loss=0.2768
+MAE              : 0.1951
+RMSE             : 0.6128
+MAPE             : 6.47%
+Directional Acc. : 45.34%
+[trial 175] ✅ COMPLETED in 67.3s | best val_loss=0.3446
+MAE              : 0.1798
+RMSE             : 0.5755
+MAPE             : 5.90%
+Directional Acc. : 45.01%
+[trial 180] ✅ COMPLETED in 89.8s | best val_loss=0.2828
+MAE              : 0.1847
+RMSE             : 0.5915
+MAPE             : 6.19%
+Directional Acc. : 44.84%
+[trial 182] ✅ COMPLETED in 114.9s | best val_loss=0.2547
+MAE              : 0.2035
+RMSE             : 0.6076
+MAPE             : 6.69%
+Directional Acc. : 45.01%
+[trial 183] ✅ COMPLETED in 160.4s | best val_loss=0.2466
+MAE              : 0.1939
+RMSE             : 0.6200
+MAPE             : 6.14%
+Directional Acc. : 43.70%
+[trial 184] ✅ COMPLETED in 65.1s | best val_loss=0.3373
+MAE              : 0.1764
+RMSE             : 0.5781
+MAPE             : 5.86%
+Directional Acc. : 45.01%
+[trial 185] ✅ COMPLETED in 111.1s | best val_loss=0.2429
+MAE              : 0.1819
+RMSE             : 0.6046
+MAPE             : 5.93%
+Directional Acc. : 44.03%
+[trial 186] ✅ COMPLETED in 111.7s | best val_loss=0.2485
+MAE              : 0.1953
+RMSE             : 0.6031
+MAPE             : 6.71%
+Directional Acc. : 45.17%
+[trial 189] ✅ COMPLETED in 110.5s | best val_loss=0.2682
+MAE              : 0.1957
+RMSE             : 0.6004
+MAPE             : 6.65%
+Directional Acc. : 45.34%
+[trial 190] ✅ COMPLETED in 158.0s | best val_loss=0.2570
+MAE              : 0.1877
+RMSE             : 0.6016
+MAPE             : 6.03%
+Directional Acc. : 45.01%
+[trial 191] ✅ COMPLETED in 98.3s | best val_loss=0.2865
+MAE              : 0.1910
+RMSE             : 0.6057
+MAPE             : 6.55%
+Directional Acc. : 44.35%
+[trial 192] ✅ COMPLETED in 111.7s | best val_loss=0.2605
+MAE              : 0.1971
+RMSE             : 0.5959
+MAPE             : 6.95%
+Directional Acc. : 44.84%
+[trial 193] ✅ COMPLETED in 108.4s | best val_loss=0.2588
+MAE              : 0.1918
+RMSE             : 0.6221
+MAPE             : 6.05%
+Directional Acc. : 45.17%
+[trial 194] ✅ COMPLETED in 110.0s | best val_loss=0.2727
+MAE              : 0.1885
+RMSE             : 0.6003
+MAPE             : 6.32%
+Directional Acc. : 44.03%
+[trial 195] ✅ COMPLETED in 112.9s | best val_loss=0.2741
+MAE              : 0.1796
+RMSE             : 0.5787
+MAPE             : 5.99%
+Directional Acc. : 44.84%
+[trial 204] ✅ COMPLETED in 114.0s | best val_loss=0.2346
+MAE              : 0.1872
+RMSE             : 0.6047
+MAPE             : 6.31%
+Directional Acc. : 45.01%
+[trial 209] ✅ COMPLETED in 134.7s | best val_loss=0.2639
+MAE              : 0.1961
+RMSE             : 0.6163
+MAPE             : 6.50%
+Directional Acc. : 45.17%
+[trial 211] ✅ COMPLETED in 139.8s | best val_loss=0.2624
+MAE              : 0.1843
+RMSE             : 0.6047
+MAPE             : 5.84%
+Directional Acc. : 45.17%
+[trial 212] ✅ COMPLETED in 165.1s | best val_loss=0.2713
+MAE              : 0.1844
+RMSE             : 0.6097
+MAPE             : 6.12%
+Directional Acc. : 44.19%
+[trial 221] ✅ COMPLETED in 111.0s | best val_loss=0.2640
+MAE              : 0.1929
+RMSE             : 0.6038
+MAPE             : 6.57%
+Directional Acc. : 43.86%
+[trial 223] ✅ COMPLETED in 110.9s | best val_loss=0.2611
+MAE              : 0.1891
+RMSE             : 0.5847
+MAPE             : 6.29%
+Directional Acc. : 45.50%
+[trial 227] ✅ COMPLETED in 122.5s | best val_loss=0.2670
+MAE              : 0.1826
+RMSE             : 0.5961
+MAPE             : 5.87%
+Directional Acc. : 44.68%
+[trial 238] ✅ COMPLETED in 115.8s | best val_loss=0.2633
+MAE              : 0.1841
+RMSE             : 0.6107
+MAPE             : 6.04%
+Directional Acc. : 45.34%
+[trial 241] ✅ COMPLETED in 62.0s | best val_loss=0.3415
+MAE              : 0.1879
+RMSE             : 0.5978
+MAPE             : 6.49%
+Directional Acc. : 43.86%
+[trial 243] ✅ COMPLETED in 120.1s | best val_loss=0.2567
+MAE              : 0.2062
+RMSE             : 0.6139
+MAPE             : 6.86%
+Directional Acc. : 44.84%
+[trial 245] ✅ COMPLETED in 167.5s | best val_loss=0.2684
+MAE              : 0.2019
+RMSE             : 0.6967
+MAPE             : 6.46%
+Directional Acc. : 46.64%
+[trial 256] ✅ COMPLETED in 134.6s | best val_loss=0.2851
+MAE              : 0.2038
+RMSE             : 0.6364
+MAPE             : 6.98%
+Directional Acc. : 45.50%
+[trial 262] ✅ COMPLETED in 55.5s | best val_loss=0.3345
+MAE              : 0.1959
+RMSE             : 0.6191
+MAPE             : 6.32%
+Directional Acc. : 44.68%
+[trial 266] ✅ COMPLETED in 68.2s | best val_loss=0.3330
+MAE              : 0.1960
+RMSE             : 0.6097
+MAPE             : 6.52%
+Directional Acc. : 44.19%
+[trial 268] ✅ COMPLETED in 116.8s | best val_loss=0.2565
+MAE              : 0.1940
+RMSE             : 0.6112
+MAPE             : 6.47%
+Directional Acc. : 44.68%
+[trial 269] ✅ COMPLETED in 115.7s | best val_loss=0.2768
+MAE              : 0.1935
+RMSE             : 0.6082
+MAPE             : 6.67%
+Directional Acc. : 44.52%
+[trial 275] ✅ COMPLETED in 116.6s | best val_loss=0.2592
+MAE              : 0.2110
+RMSE             : 0.6272
+MAPE             : 6.92%
+Directional Acc. : 45.01%
+[trial 284] ✅ COMPLETED in 68.0s | best val_loss=0.2861
+MAE              : 0.2097
+RMSE             : 0.6151
+MAPE             : 7.33%
+Directional Acc. : 45.34%
+[trial 293] ✅ COMPLETED in 115.4s | best val_loss=0.2581
+MAE              : 0.2131
+RMSE             : 0.6204
+MAPE             : 7.00%
+Directional Acc. : 44.84%
+[trial 294] ✅ COMPLETED in 105.0s | best val_loss=0.2721
+MAE              : 0.1895
+RMSE             : 0.6160
+MAPE             : 6.35%
+Directional Acc. : 44.03%
+[trial 295] ✅ COMPLETED in 67.9s | best val_loss=0.2853
+Best value (val_loss): 0.23456576466560364
+Best params: {'max_encoder_length': 30, 'batch_size': 32, 'learning_rate': 0.0023453345078533654, 'gradient_clip_val': 0.25, 'use_weight_decay': False, 'hidden_size': 128, 'attention_head_size': 8, 'hidden_continuous_size': 16, 'dropout': 0.15439706937662953, 'lstm_layers': 2}
+Wrote trial summary: saved_results/20260114-181743_Price+Storage_tft/trial_summary.csv
+==============================================
+Completed: baseline_price_storage_tft.py at Thu 15 Jan 00:41:24 GMT 2026
+==============================================

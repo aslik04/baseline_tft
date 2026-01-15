@@ -40,7 +40,7 @@ torch.set_float32_matmul_precision("high")
 # ------------------------------------------------------------------
 ENV_MAX_EPOCHS = int(os.environ.get("MAX_EPOCHS", "60"))
 ENV_PATIENCE = int(os.environ.get("PATIENCE", "8"))
-ENV_N_TRIALS = int(os.environ.get("N_TRIALS", "1000"))
+ENV_N_TRIALS = int(os.environ.get("N_TRIALS", "300"))
 ENV_BATCH_SIZE = int(os.environ.get("BATCH_SIZE", "64"))
 ENV_SKIP_BASELINE_FIT = os.environ.get("SKIP_BASELINE_FIT", "0") == "1"
 ENV_BASELINE_MAX_EPOCHS = int(os.environ.get("BASELINE_MAX_EPOCHS", str(ENV_MAX_EPOCHS)))
